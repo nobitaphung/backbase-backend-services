@@ -1,5 +1,5 @@
 # https://docs.docker.com/compose/compose-file/
-version: "3.5"
+
 x-common-variables: &common-variables
   JAVA_TOOL_OPTIONS: -XX:MaxRAMPercentage=60.0 -Dlogging.level.com.backbase=DEBUG
   SIG_SECRET_KEY: JWTSecretKeyDontUseInProduction!
@@ -140,8 +140,7 @@ services:
       KEYCLOAK_CONNECTIONSJPA_QUARKUS_INITIALIZEEMPTY: "true"
       KEYCLOAK_CONNECTIONSJPA_QUARKUS_MIGRATIONSTRATEGY: "update"
       KEYCLOAK_BACKBASE_OIDC_TOKEN_CONVERTER_URL: "http://token-converter:8080"
-      keycloak.hostname.default.frontendUrl: "http://10.162.86.210:8080/auth"
-      keycloak.hostname.default.forceBackendUrlToFrontendUrl: false
+      keycloak.hostname.default.frontendUrl: "http://localhost:8180/auth"
       JAVA_TOOL_OPTIONS: "-Dkeycloak.migration.strategy=IGNORE_EXISTING -Dkeycloak.migration.action=import -Dkeycloak.profile.feature.upload_scripts=enabled -Dquarkus.log.category.'\"com.backbase\"'.level=DEBUG"
     volumes:
       - ../config/identity:/tmp/keycloak-export
@@ -313,38 +312,6 @@ services:
         condition: service_healthy
       user-manager:
         condition: service_healthy
-
-#  accessgroup-integration-service:
-#    container_name: accessgroup_integration_service
-#    image: repo.backbase.com/backbase-docker-releases/accessgroup-integration-service:${BB_VERSION}
-#    ports:
-#      - "8328:8080"
-#    environment:
-#      <<: *common-variables
-#      <<: *message-broker-variables
-#    volumes:
-#      - ./scripts:/tmp/h
-#    healthcheck:
-#      <<: *healthcheck-defaults
-#      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/accessgroup-integration-service", "<status>UP</status>" ]
-#    links:
-#      - registry
-
-#  legalentity-integration-service:
-#    container_name: legalentity_integration_service
-#    image: repo.backbase.com/backbase-docker-releases/legalentity-integration-service:${BB_VERSION}
-#    ports:
-#      - "8326:8080"
-#    environment:
-#      <<: *common-variables
-#      <<: *message-broker-variables
-#    volumes:
-#      - ./scripts:/tmp/h
-#    healthcheck:
-#      <<: *healthcheck-defaults
-#      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/legalentity-integration-service", "<status>UP</status>" ]
-#    links:
-#      - registry
 
   # <EXAMPLE-SERVICE-NAME>:
   #   container_name: example_service
