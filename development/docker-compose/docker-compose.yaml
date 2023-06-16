@@ -314,21 +314,21 @@ services:
       user-manager:
         condition: service_healthy
 
-  accessgroup-integration-service:
-    container_name: accessgroup_integration_service
-    image: repo.backbase.com/backbase-docker-releases/accessgroup-integration-service:${BB_VERSION}
-    ports:
-      - "8328:8080"
-    environment:
-      <<: *common-variables
-      <<: *message-broker-variables
-    volumes:
-      - ./scripts:/tmp/h
-    healthcheck:
-      <<: *healthcheck-defaults
-      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/accessgroup-integration-service", "<status>UP</status>" ]
-    links:
-      - registry
+#  accessgroup-integration-service:
+#    container_name: accessgroup_integration_service
+#    image: repo.backbase.com/backbase-docker-releases/accessgroup-integration-service:${BB_VERSION}
+#    ports:
+#      - "8328:8080"
+#    environment:
+#      <<: *common-variables
+#      <<: *message-broker-variables
+#    volumes:
+#      - ./scripts:/tmp/h
+#    healthcheck:
+#      <<: *healthcheck-defaults
+#      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/accessgroup-integration-service", "<status>UP</status>" ]
+#    links:
+#      - registry
 
   legalentity-integration-service:
     container_name: legalentity_integration_service
