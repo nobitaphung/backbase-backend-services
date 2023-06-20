@@ -140,7 +140,7 @@ services:
       KEYCLOAK_CONNECTIONSJPA_QUARKUS_INITIALIZEEMPTY: "true"
       KEYCLOAK_CONNECTIONSJPA_QUARKUS_MIGRATIONSTRATEGY: "update"
       KEYCLOAK_BACKBASE_OIDC_TOKEN_CONVERTER_URL: "http://token-converter:8080"
-      keycloak.hostname.default.frontendUrl: "http://10.162.86.210:8180/auth"
+      keycloak.hostname.default.frontendUrl: "http://localhost:8180/auth"
       JAVA_TOOL_OPTIONS: "-Dkeycloak.migration.strategy=IGNORE_EXISTING -Dkeycloak.migration.action=import -Dkeycloak.profile.feature.upload_scripts=enabled -Dquarkus.log.category.'\"com.backbase\"'.level=DEBUG"
     volumes:
       - ../config/identity:/tmp/keycloak-export
