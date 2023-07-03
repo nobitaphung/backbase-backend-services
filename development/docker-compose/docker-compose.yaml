@@ -430,23 +430,6 @@ services:
     environment:
       <<: *common-variables
       <<: *message-broker-variables
-      scim:
-        server-config:
-          authentication-schemes:
-        resource-types:
-          user:
-            name: "User"
-            endpoint: "/Users"
-            schema: "urn:ietf:params:scim:schemas:core:2.0:User"
-            schemaExtensions:
-              - schema: "urn:ietf:params:scim:schemas:extension:backbase:2.0:User"
-                required: false
-              - schema: "urn:ietf:params:scim:schemas:extension:backbase:2.0:ExtendedUser"
-                required: false
-      backbase:
-        security:
-          public:
-            paths: "/**"
     volumes:
       - ./scripts:/tmp/h
     healthcheck:
