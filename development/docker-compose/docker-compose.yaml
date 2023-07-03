@@ -408,7 +408,7 @@ services:
       <<: *message-broker-variables
       scim:
         client:
-          resource-type: Users
+          resource-type: "Users"
           server-uri: http://localhost:8013/user-profile-core-mock/
       spring.datasource.url: jdbc:mysql://mysql:3306/user-profile-manager?useSSL=false&allowPublicKeyRetrieval=true&cacheServerConfiguration=true&createDatabaseIfNotExist=true
     volumes:
