@@ -446,7 +446,7 @@ services:
       backbase:
         security:
           public:
-            paths: /**
+            paths: "/**"
     volumes:
       - ./scripts:/tmp/h
     healthcheck:
