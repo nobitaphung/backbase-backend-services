@@ -325,8 +325,6 @@ services:
     environment:
       <<: *common-variables
       <<: *message-broker-variables
-      <<: *database-variables
-      spring.datasource.url: jdbc:mysql://mysql:3306/legalentity-integration-service?useSSL=false&allowPublicKeyRetrieval=true&cacheServerConfiguration=true&createDatabaseIfNotExist=true
     volumes:
       - ./scripts:/tmp/h
     healthcheck:
@@ -338,21 +336,37 @@ services:
     links:
       - registry
 
-#  legalentity-integration-external-mock:
-#    container_name: legalentity_integration_external_mock
-#    image: repo.backbase.com/backbase-docker-releases/legalentity-integration-external-mock:${BB_VERSION}
-#    ports:
-#      - "8327:8080"
-#    environment:
-#      <<: *common-variables
-#      <<: *message-broker-variables
-#    volumes:
-#      - ./scripts:/tmp/h
-#    healthcheck:
-#      <<: *healthcheck-defaults
-#      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/legalentity-integration-external-mock", "<status>UP</status>" ]
-#    links:
-#      - registry
+  legalentity-integration-outbound-service:
+    container_name: legalentity_integration_outbound_service
+    image: repo.backbase.com/backbase-docker-releases/legalentity-integration-outbound-service:${BB_VERSION}
+    ports:
+      - "8329:8080"
+    environment:
+      <<: *common-variables
+      <<: *message-broker-variables
+    volumes:
+      - ./scripts:/tmp/h
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/legalentity-integration-outbound-service", "<status>UP</status>" ]
+    links:
+      - registry
+
+  legalentity-integration-external-mock:
+    container_name: legalentity_integration_external_mock
+    image: repo.backbase.com/backbase-docker-releases/legalentity-integration-external-mock:${BB_VERSION}
+    ports:
+      - "8327:8080"
+    environment:
+      <<: *common-variables
+      <<: *message-broker-variables
+    volumes:
+      - ./scripts:/tmp/h
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/legalentity-integration-external-mock", "<status>UP</status>" ]
+    links:
+      - registry
 
   accessgroup-integration-service:
     container_name: accessgroup_integration_service
