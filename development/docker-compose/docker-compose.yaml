@@ -354,7 +354,7 @@ services:
 
   legalentity-integration-external-mock:
     container_name: legalentity_integration_external_mock
-    image: repo.backbase.com/backbase-docker-releases/legalentity-integration-external-mock:${BB_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/legalentity-integration-external-mock:2022.08.3-LTS-0.1.0
     ports:
       - "8327:8080"
     environment:
