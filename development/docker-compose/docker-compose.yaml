@@ -18,6 +18,7 @@ x-common-variables: &common-variables
   backbase.audit.enabled: false
   backbase.security.public.paths: /integration-api/**
   backbase.security.mtls.enabled: false
+  backbase.security.internal-jwt-consumer.enabled: false
 
 x-database-variables: &database-variables
   logging.level.liquibase: INFO
