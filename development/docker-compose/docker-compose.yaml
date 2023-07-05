@@ -178,7 +178,7 @@ services:
 
   arrangement-manager:
     container_name: arrangement_manager
-    image: repo.backbase.com/backbase-docker-releases/arrangement-manager:2023.02.35-LTS
+    image: repo.backbase.com/backbase-docker-releases/arrangement-manager:${BB_VERSION}
     ports:
       - "8050:8080"
     environment:
@@ -189,6 +189,25 @@ services:
     healthcheck:
       <<: *healthcheck-defaults
       test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/arrangement-manager", "<status>UP</status>" ]
+    depends_on:
+      mysql:
+        condition: service_healthy
+    links:
+      - activemq
+      - registry
+
+  arrangements-integration-service:
+    container_name: arrangements_integration_service
+    image: repo.backbase.com/backbase-docker-releases/arrangements-integration-service:${BB_VERSION}
+    ports:
+      - "8051:8080"
+    environment:
+      <<: [*common-variables, *message-broker-variables]
+    volumes:
+      - ./scripts:/tmp/h
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/arrangements-integration-service", "<status>UP</status>" ]
     depends_on:
       mysql:
         condition: service_healthy
