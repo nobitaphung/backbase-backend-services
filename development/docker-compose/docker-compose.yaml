@@ -419,6 +419,22 @@ services:
     links:
       - registry
 
+  account-statement-integration-mock:
+    container_name: account_statement_integration_mock
+    image: repo.backbase.com/backbase-docker-releases/account-statement-integration-mock:${BB_VERSION}
+    ports:
+      - "8391:8080"
+    environment:
+      <<: *common-variables
+      <<: *message-broker-variables
+    volumes:
+      - ./scripts:/tmp/h
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/account-statement-integration-mock", "<status>UP</status>" ]
+    links:
+      - registry
+
   account-mock:
     container_name: account_mock
     image: repo.backbase.com/backbase-docker-releases/account-mock:${BB_VERSION}
