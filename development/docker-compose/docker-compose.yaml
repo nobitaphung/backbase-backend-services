@@ -41,7 +41,7 @@ x-healthcheck-defaults: &healthcheck-defaults
 
 x-arrangement-manager: &arrangement-manager
   management.health.rabbit.enabled: false
-  backbase.communication.services.account.integration.service-id: account-mock
+  backbase.communication.services.account.integration.service-id: "account-mock"
 
 volumes:
   backbase_mysql_data:
