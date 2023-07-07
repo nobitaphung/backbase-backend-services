@@ -178,11 +178,12 @@ services:
 
   arrangement-manager:
     container_name: arrangement_manager
-    image: repo.backbase.com/backbase-docker-releases/arrangement-manager:2022.08-LTS
+    image: repo.backbase.com/backbase-docker-releases/arrangement-manager:${BB_VERSION}
     ports:
       - "8050:8080"
     environment:
       <<: [*common-variables, *database-variables, *message-broker-variables]
+      management.health.rabbit.enabled: false
       spring.datasource.url: jdbc:mysql://mysql:3306/arrangement-manager?useSSL=false&allowPublicKeyRetrieval=true&cacheServerConfiguration=true&createDatabaseIfNotExist=true
     volumes:
       - ./scripts:/tmp/h
