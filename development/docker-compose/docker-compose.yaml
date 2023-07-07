@@ -182,7 +182,7 @@ services:
     ports:
       - "8050:8080"
     environment:
-      <<: [*common-variables, *database-variables, *message-broker-variables]
+      <<: [*common-variables, *database-variables]
       management.health.rabbit.enabled: false
       spring.datasource.url: jdbc:mysql://mysql:3306/arrangement-manager?useSSL=false&allowPublicKeyRetrieval=true&cacheServerConfiguration=true&createDatabaseIfNotExist=true
     volumes:
@@ -194,7 +194,6 @@ services:
       mysql:
         condition: service_healthy
     links:
-      - activemq
       - registry
 
   arrangements-integration-service:
