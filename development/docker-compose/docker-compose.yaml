@@ -331,7 +331,7 @@ services:
 
   legalentity-integration-outbound-service:
     container_name: legalentity_integration_outbound_service
-    image: repo.backbase.com/backbase-docker-releases/legalentity-integration-outbound-service:${BB_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/legalentity-integration-outbound-service:2022.08.3-LTS-0.1.0
     ports:
       - "8052:8080"
     environment:
