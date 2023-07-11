@@ -383,6 +383,22 @@ services:
       - activemq
       - registry
 
+  user-integration-external-mock:
+    container_name: user_integration_external_mock
+    image: repo.backbase.com/backbase-docker-releases/user-integration-external-mock:${BB_VERSION}
+    ports:
+      - "8057:8080"
+    environment:
+      <<: [*common-variables, *message-broker-variables]
+    volumes:
+      - ./scripts:/tmp/h
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/user-integration-external-mock", "<status>UP</status>" ]
+    links:
+      - activemq
+      - registry
+
   user-profile-core-mock:
     container_name: user_profile_core_mock
     image: repo.backbase.com/backbase-docker-releases/user-profile-core-mock:${BB_VERSION}
