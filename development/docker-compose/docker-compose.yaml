@@ -329,6 +329,38 @@ services:
       - activemq
       - registry
 
+  legalentity-integration-outbound-service:
+    container_name: legalentity_integration_outbound_service
+    image: repo.backbase.com/backbase-docker-releases/legalentity-integration-outbound-service:${BB_VERSION}
+    ports:
+      - "8052:8080"
+    environment:
+      <<: [*common-variables, *message-broker-variables]
+    volumes:
+      - ./scripts:/tmp/h
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/legalentity-integration-outbound-service", "<status>UP</status>" ]
+    links:
+      - activemq
+      - registry
+
+  legalentity-integration-external-mock:
+    container_name: legalentity_integration_external_mock
+    image: repo.backbase.com/backbase-docker-releases/legalentity-integration-external-mock:${BB_VERSION}
+    ports:
+      - "8053:8080"
+    environment:
+      <<: [*common-variables, *message-broker-variables]
+    volumes:
+      - ./scripts:/tmp/h
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/legalentity-integration-external-mock", "<status>UP</status>" ]
+    links:
+      - activemq
+      - registry
+
   # <EXAMPLE-SERVICE-NAME>:
   #   container_name: example_service
   #   image: <DOCKER-REGISTRY>/<REPOSITORY-NAME>:<TAG>
