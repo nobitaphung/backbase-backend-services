@@ -385,7 +385,7 @@ services:
 
   user-profile-core-mock:
     container_name: user_profile_core_mock
-    image: repo.backbase.com/backbase-docker-releases/user_profile_core_mock:${BB_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/user-profile-core-mock:${BB_VERSION}
     ports:
       - "8055:8080"
     environment:
@@ -401,7 +401,7 @@ services:
 
   accessgroup-integration-service:
     container_name: accessgroup_integration_service
-    image: repo.backbase.com/backbase-docker-releases/accessgroup_integration_service:${BB_VERSION}
+    image: repo.backbase.com/backbase-docker-releases/accessgroup-integration-service:${BB_VERSION}
     ports:
       - "8056:8080"
     environment:
