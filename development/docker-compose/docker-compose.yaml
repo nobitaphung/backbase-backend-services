@@ -401,7 +401,7 @@ services:
 
   user-profile-core-mock:
     container_name: user_profile_core_mock
-    image: repo.backbase.com/backbase-docker-releases/user-profile-core-mock:${BB_VERSION}
+    image: user-profile-core-mock:2023.02-LTS
     ports:
       - "8055:8080"
     environment:
