@@ -388,6 +388,10 @@ services:
       - "8057:8080"
     environment:
       <<: [*common-variables, *message-broker-variables]
+      "BACKBASE_AUTHENTICATORS_CHANNELS_SMS": "true"
+      "BACKBASE_AUTHENTICATORS_CHANNELS_EMAIL": "true"
+      "backbase-env-jwt": "JWTSecretKeyDontUseInProduction!"
+      "EXTERNAL_ENC_SECRET_KEY": "JWTEncKeyDontUseInProduction666!"
     volumes:
       - ./scripts:/tmp/h
     healthcheck:
