@@ -200,10 +200,16 @@ services:
     environment:
       <<: [*common-variables, *message-broker-variables, *database-variables]
       spring.datasource.url: jdbc:mysql://mysql:3306/user-manager?useSSL=false&allowPublicKeyRetrieval=true&cacheServerConfiguration=true&createDatabaseIfNotExist=true
-      backbase.users.identity-endpoints-enabled: true
-      backbase.users.identity-integration-enabled: true
-      backbase.users.sync-primary-to-identity-enabled: true
-      spring.cloud.discovery.client.simple.instances.user-integration-outbound-service[0].uri: user-integration-external-mock
+      "SPRING_RESTTEMPLATE_REQUESTFACTORY_SSLCONTEXT_VERIFY": "false"
+      "BACKBASE_COMMUNICATION_SERVICES_USER_PROFILE_SERVICE_ID": "user-integration-external-mock"
+      "BACKBASE_USERS_CACHE_ENABLED": "true"
+      "BACKBASE_USERS_ENABLECBSUNAVAILABILITY": "true"
+      "BACKBASE_USERS_IDENTITY_ENDPOINTS_ENABLED": "true"
+      "BACKBASE_USERS_IDENTITY_INTEGRATION_ENABLED": "true"
+      "BACKBASE_SECURITY_MTLS_ENABLED": "false"
+      "BACKBASE_SECURITY_PUBLIC_PATHS": "/integration-api/**"
+      "BACKBASE_AUTHENTICATORS_CHANNELS_SMS": "true"
+      "BACKBASE_USERS_SYNC_PRIMARY_TO_IDENTITY_ENABLED": "true"
     volumes:
       - ./scripts:/tmp/h
     healthcheck:
