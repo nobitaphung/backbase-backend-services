@@ -82,6 +82,11 @@ services:
     image: ${MY_REPO}/registry:${BB_VERSION}
     ports:
       - "8761:8080"
+    environment:
+      "SIG_SECRET_KEY": "JWTSecretKeyDontUseInProduction!"
+      "USERCTX_KEY": "JWTSecretKeyDontUseInProduction!"
+      "EXTERNAL_ENC_SECRET_KEY": "JWTEncKeyDontUseInProduction666!"
+      "backbase-env-jwt": "JWTEncKeyDontUseInProduction666!"
     volumes:
       - ./scripts/HealthCheck.java:/tmp/HealthCheck.java
     healthcheck:
@@ -95,8 +100,9 @@ services:
       - "8280:8080"
     environment:
       <<: *common-variables
-      gateway.actuator.security.enabled: false
-      gateway.csrf.enabled: false
+      "GATEWAY_ACTUATOR_USER": "admin"
+      "GATEWAY_ACTUATOR_PASSWORD": "admin"
+      "GATEWAY_TOKEN_CONVERTER_URI": "http://token-converter:8080/convert"
     volumes:
       - ./scripts/HealthCheck.java:/tmp/HealthCheck.java
     healthcheck:
@@ -432,6 +438,21 @@ services:
     links:
       - activemq
       - registry
+
+  business-universal:
+    container_name: business_universal
+    image: ${MY_REPO}/business-universal:${BB_VERSION}
+    ports:
+      - "4200:4200"
+    environment:
+      "SIG_SECRET_KEY": "JWTSecretKeyDontUseInProduction!"
+      "USERCTX_KEY": "JWTSecretKeyDontUseInProduction!"
+      "EXTERNAL_ENC_SECRET_KEY": "JWTEncKeyDontUseInProduction666!"
+      "backbase-env-jwt": "JWTEncKeyDontUseInProduction666!"
+      "API_ROOT": "https://10.162.86.210:8280/api"
+      "AUTH_URL": "https://10.162.86.210:8180/auth"
+      "AUTH_REALM": "backbase"
+      "AUTH_CLIENT_ID": "bb-web-client"
 
   # <EXAMPLE-SERVICE-NAME>:
   #   container_name: example_service
