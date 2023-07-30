@@ -77,7 +77,7 @@ services:
 
   registry:
     container_name: registry
-    image: repo.backbase.com/backbase-docker-releases/registry:${BB_VERSION}
+    image: ${MY_REPO}/registry:${BB_VERSION}
     ports:
       - "8761:8080"
     volumes:
@@ -88,7 +88,7 @@ services:
 
   edge:
     container_name: edge
-    image: repo.backbase.com/backbase-docker-releases/edge:${BB_VERSION}
+    image: ${MY_REPO}/edge:${BB_VERSION}
     ports:
       - "8280:8080"
     environment:
@@ -106,7 +106,7 @@ services:
 
   token-converter:
     container_name: token_converter
-    image: repo.backbase.com/backbase-docker-releases/oidc-token-converter-service:${BB_VERSION}
+    image: ${MY_REPO}/oidc-token-converter-service:${BB_VERSION}
     ports:
       - "7779:8080"
     environment:
@@ -125,7 +125,7 @@ services:
 
   backbase-identity:
     container_name: backbase_identity
-    image: repo.backbase.com/backbase-docker-releases/backbase-identity:${BB_VERSION}
+    image: ${MY_REPO}/backbase-identity:${BB_VERSION}
     ports:
       - '8180:8080'
     environment:
@@ -154,7 +154,7 @@ services:
 
   access-control:
     container_name: access_control
-    image: repo.backbase.com/backbase-docker-releases/access-control:${BB_VERSION}
+    image: ${MY_REPO}/access-control:${BB_VERSION}
     ports:
       - "8040:8080"
     environment:
@@ -174,7 +174,7 @@ services:
 
   arrangement-manager:
     container_name: arrangement_manager
-    image: repo.backbase.com/backbase-docker-releases/arrangement-manager:${BB_VERSION}
+    image: ${MY_REPO}/arrangement-manager:${BB_VERSION}
     ports:
       - "8050:8080"
     environment:
@@ -194,7 +194,7 @@ services:
 
   user-manager:
     container_name: user_manager
-    image: repo.backbase.com/backbase-docker-releases/user-manager:${BB_VERSION}
+    image: ${MY_REPO}/user-manager:${BB_VERSION}
     ports:
       - "8060:8080"
     environment:
@@ -224,7 +224,7 @@ services:
 
   identity-integration-service:
     container_name: identity_integration_service
-    image: repo.backbase.com/backbase-docker-releases/identity-integration-service:${BB_VERSION}
+    image: ${MY_REPO}/identity-integration-service:${BB_VERSION}
     ports:
       - "8070:8080"
     environment:
@@ -242,48 +242,6 @@ services:
     links:
       - registry
       - backbase-identity
-
-  product-catalog-task:
-    container_name: product_catalog_task
-    image: repo.backbase.com/backbase-stream-images/product-catalog-task:${STREAM_VERSION}
-    profiles:
-      - bootstrap
-    environment:
-      <<: *common-variables
-      spring.config.additional-location: file:/tmp/ingestion.yml
-    volumes:
-      - ../config/stream/ingestion.yml:/tmp/ingestion.yml
-    depends_on:
-      token-converter:
-        condition: service_healthy
-      arrangement-manager:
-        condition: service_healthy
-
-  legal-entity-bootstrap-task:
-    container_name: legal_entity_bootstrap_task
-    image: repo.backbase.com/backbase-stream-images/legal-entity-bootstrap-task:${STREAM_VERSION}
-    profiles:
-      - bootstrap
-    environment:
-      <<: *common-variables
-      spring.config.additional-location: file:/tmp/ingestion.yml
-    volumes:
-      - ../config/stream/ingestion.yml:/tmp/ingestion.yml
-    depends_on:
-      token-converter:
-        condition: service_healthy
-      access-control:
-        condition: service_healthy
-      arrangement-manager:
-        condition: service_healthy
-      user-manager:
-        condition: service_healthy
-      identity-integration-service:
-        condition: service_healthy
-      backbase-identity:
-        condition: service_healthy
-      product-catalog-task:
-        condition: service_completed_successfully
 
   wiremock:
     container_name: wiremock
@@ -321,7 +279,7 @@ services:
 
   legalentity-integration-service:
     container_name: legalentity_integration_service
-    image: repo.backbase.com/backbase-docker-releases/legalentity-integration-service:${BB_VERSION}
+    image: ${MY_REPO}/legalentity-integration-service:${BB_VERSION}
     ports:
       - "8051:8080"
     environment:
@@ -337,7 +295,7 @@ services:
 
   legalentity-integration-outbound-service:
     container_name: legalentity_integration_outbound_service
-    image: repo.backbase.com/backbase-docker-releases/legalentity-integration-outbound-service:2022.08.3-LTS-0.1.0
+    image: ${MY_REPO}/legalentity-integration-outbound-service:2022.08.3-LTS-0.1.0
     ports:
       - "8052:8080"
     environment:
@@ -353,7 +311,7 @@ services:
 
   legalentity-integration-external-mock:
     container_name: legalentity_integration_external_mock
-    image: repo.backbase.com/backbase-docker-releases/legalentity-integration-external-mock:${BB_VERSION}
+    image: ${MY_REPO}/legalentity-integration-external-mock:${BB_VERSION}
     ports:
       - "8053:8080"
     environment:
@@ -369,7 +327,7 @@ services:
 
   user-profile-manager:
     container_name: user_profile_manager
-    image: repo.backbase.com/backbase-docker-releases/user-profile-manager:${BB_VERSION}
+    image: ${MY_REPO}/user-profile-manager:${BB_VERSION}
     ports:
       - "8054:8080"
     environment:
@@ -389,7 +347,7 @@ services:
 
   user-integration-external-mock:
     container_name: user_integration_external_mock
-    image: user-integration-external-mock:2023.02-LTS
+    image: ${MY_REPO}/user-integration-external-mock:${BB_VERSION}
     ports:
       - "8057:8080"
     environment:
@@ -409,7 +367,7 @@ services:
 
   user-profile-core-mock:
     container_name: user_profile_core_mock
-    image: user-profile-core-mock:2023.02-LTS
+    image: ${MY_REPO}/user-profile-core-mock:${BB_VERSION}
     ports:
       - "8055:8080"
     environment:
@@ -425,7 +383,7 @@ services:
 
   accessgroup-integration-service:
     container_name: accessgroup_integration_service
-    image: repo.backbase.com/backbase-docker-releases/accessgroup-integration-service:${BB_VERSION}
+    image: ${MY_REPO}/accessgroup-integration-service:${BB_VERSION}
     ports:
       - "8056:8080"
     environment:
@@ -441,7 +399,7 @@ services:
 
   contact-manager:
     container_name: contact_manager
-    image: repo.backbase.com/backbase-docker-releases/contact-manager:${BB_VERSION}
+    image: ${MY_REPO}/contact-manager:${BB_VERSION}
     ports:
       - "8058:8080"
     environment:
