@@ -49,6 +49,15 @@ networks:
     name: backbase_default
 
 services:
+
+  proxy:
+    image: nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8085:5555"
+      - "9085:6666"
+
   mysql:
     container_name: mysql
     image: mysql:8.0.31
@@ -100,6 +109,10 @@ services:
       - "8280:8080"
     environment:
       <<: *common-variables
+      eureka.instance.hostname: localhost
+      eureka.instance.nonSecurePort: 7777
+      eureka.instance.preferIpAddress: false
+      eureka.client.serviceUrl.defaultZone: http://registry:8080/eureka/
       "GATEWAY_ACTUATOR_USER": "admin"
       "GATEWAY_ACTUATOR_PASSWORD": "admin"
       "GATEWAY_TOKEN_CONVERTER_URI": "http://token-converter:8080/convert"
@@ -445,6 +458,7 @@ services:
     ports:
       - "4200:4200"
     environment:
+      "LOG_LEVEL": debug
       "SIG_SECRET_KEY": "JWTSecretKeyDontUseInProduction!"
       "USERCTX_KEY": "JWTSecretKeyDontUseInProduction!"
       "EXTERNAL_ENC_SECRET_KEY": "JWTEncKeyDontUseInProduction666!"
