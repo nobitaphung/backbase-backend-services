@@ -4,6 +4,7 @@ x-common-variables: &common-variables
   JAVA_TOOL_OPTIONS: -XX:MaxRAMPercentage=60.0 -Dlogging.level.com.backbase=DEBUG
   SIG_SECRET_KEY: JWTSecretKeyDontUseInProduction!
   USERCTX_KEY: JWTSecretKeyDontUseInProduction!
+  EXTERNAL_ENC_SECRET_KEY: "JWTEncKeyDontUseInProduction666!"
   eureka.client.serviceUrl.defaultZone: http://registry:8080/eureka
   eureka.client.healthcheck.enabled: true
   eureka.instance.non-secure-port: 8080
@@ -15,6 +16,7 @@ x-common-variables: &common-variables
   spring.zipkin.enabled: false
   spring.cloud.config.enabled: false
   spring.cloud.kubernetes.enabled: false
+  backbase-env-jwt: "JWTSecretKeyDontUseInProduction!"
   backbase.audit.enabled: false
   backbase.security.public.paths: /integration-api/**
   backbase.security.mtls.enabled: false
@@ -160,6 +162,19 @@ services:
     environment:
       <<: [*common-variables, *message-broker-variables, *database-variables]
       spring.datasource.url: jdbc:mysql://mysql:3306/access-control?useSSL=false&allowPublicKeyRetrieval=true&cacheServerConfiguration=true&createDatabaseIfNotExist=true
+      "SPRING_CLOUD_CONFIG_ENABLED": "false"
+      "SPRING_CLOUD_CONFIG_FAILFAST": "false"
+      "SPRING_LIQUIBASE_ENABLED": "false"
+      "KEYCLOAK_CONNECTIONSJPA_QUARKUS_INITIALIZEEMPTY": "true"
+      "BACKBASE_APPROVAL_LEVEL_ENABLED": "true"
+      "SPRING_DATASOURCE_USERNAME_USER_MANAGER": "user_manager"
+      "SPRING_DATASOURCE_PASSWORD_USER_MANAGER": "root"
+      "SPRING_DATASOURCE_USERNAME_USER_PROFILR_MANAGER": "user_profile_manager"
+      "SPRING_DATASOURCE_PASSWORD_USER_PROFILR_MANAGER": "root"
+      "SSO_JWT_INTERNAL_SIGNATURE_KEY": "JWTSecretKeyDontUseInProduction!"
+      "BACKBASE_USERCONTEXT_JWTTOKENEXPIRATION": "300"
+      "BACKBASE_USERCONTEXT_SIGNATUREANDENCRYPTION_KEY": "JWTSecretKeyDontUseInProduction!"
+      "liquibase.oracle.ignoreRecycleBin": "true"
     volumes:
       - ./scripts:/tmp/h
     healthcheck:
@@ -206,8 +221,6 @@ services:
       "BACKBASE_USERS_ENABLECBSUNAVAILABILITY": "true"
       "BACKBASE_USERS_IDENTITY_ENDPOINTS_ENABLED": "true"
       "BACKBASE_USERS_IDENTITY_INTEGRATION_ENABLED": "true"
-      "BACKBASE_SECURITY_MTLS_ENABLED": "false"
-      "BACKBASE_SECURITY_PUBLIC_PATHS": "/integration-api/**"
       "BACKBASE_AUTHENTICATORS_CHANNELS_SMS": "true"
       "BACKBASE_USERS_SYNC_PRIMARY_TO_IDENTITY_ENABLED": "true"
     volumes:
@@ -284,6 +297,8 @@ services:
       - "8051:8080"
     environment:
       <<: [*common-variables, *message-broker-variables]
+      "BACKBASE_AUTHENTICATORS_CHANNELS_SMS": "true"
+      "BACKBASE_AUTHENTICATORS_CHANNELS_EMAIL": "true"
     volumes:
       - ./scripts:/tmp/h
     healthcheck:
@@ -333,6 +348,8 @@ services:
     environment:
       <<: [*common-variables, *message-broker-variables, *database-variables]
       spring.datasource.url: jdbc:mysql://mysql:3306/user-profile-manager?useSSL=false&allowPublicKeyRetrieval=true&cacheServerConfiguration=true&createDatabaseIfNotExist=true
+      "BACKBASE_AUTHENTICATORS_CHANNELS_SMS": "true"
+      "liquibase.oracle.ignoreRecycleBin": "true"
     volumes:
       - ./scripts:/tmp/h
     healthcheck:
@@ -354,8 +371,6 @@ services:
       <<: [*common-variables, *message-broker-variables]
       "BACKBASE_AUTHENTICATORS_CHANNELS_SMS": "true"
       "BACKBASE_AUTHENTICATORS_CHANNELS_EMAIL": "true"
-      "backbase-env-jwt": "JWTSecretKeyDontUseInProduction!"
-      "EXTERNAL_ENC_SECRET_KEY": "JWTEncKeyDontUseInProduction666!"
     volumes:
       - ./scripts:/tmp/h
     healthcheck:
@@ -388,6 +403,7 @@ services:
       - "8056:8080"
     environment:
       <<: [*common-variables, *message-broker-variables]
+      "BACKBASE_AUTHENTICATORS_CHANNELS_SMS": "true"
     volumes:
       - ./scripts:/tmp/h
     healthcheck:
