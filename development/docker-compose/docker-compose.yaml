@@ -319,21 +319,21 @@ services:
       - activemq
       - registry
 
-  legalentity-integration-outbound-service:
-    container_name: legalentity_integration_outbound_service
-    image: ${MY_REPO}/legalentity-integration-outbound-service:2022.08.3-LTS-0.1.0
-    ports:
-      - "8052:8080"
-    environment:
-      <<: [*common-variables, *message-broker-variables]
-    volumes:
-      - ./scripts:/tmp/h
-    healthcheck:
-      <<: *healthcheck-defaults
-      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/legalentity-integration-outbound-service", "<status>UP</status>" ]
-    links:
-      - activemq
-      - registry
+#  legalentity-integration-outbound-service:
+#    container_name: legalentity_integration_outbound_service
+#    image: ${MY_REPO}/legalentity-integration-outbound-service:2022.08.3-LTS-0.1.0
+#    ports:
+#      - "8052:8080"
+#    environment:
+#      <<: [*common-variables, *message-broker-variables]
+#    volumes:
+#      - ./scripts:/tmp/h
+#    healthcheck:
+#      <<: *healthcheck-defaults
+#      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/legalentity-integration-outbound-service", "<status>UP</status>" ]
+#    links:
+#      - activemq
+#      - registry
 
   legalentity-integration-external-mock:
     container_name: legalentity_integration_external_mock
