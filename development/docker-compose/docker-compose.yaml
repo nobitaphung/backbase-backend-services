@@ -441,7 +441,7 @@ services:
 
   business-universal:
     container_name: business_universal
-    image: ${MY_REPO}/business-universal:${BB_VERSION}
+    image: ${MY_REPO}/business-universal:${BUSINESS_WEB_VERSION}
     ports:
       - "4200:4200"
     environment:
