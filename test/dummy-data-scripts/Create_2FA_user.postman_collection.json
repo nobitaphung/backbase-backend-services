@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "06fb64f8-8a35-41de-814e-ec1260c2455c",
-		"name": "Create 2FA user Copy",
+		"name": "Create_2FA_user",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "17707512"
 	},
@@ -255,7 +255,7 @@
 							"raw": "{\n  \"legalEntityExternalId\": \"{{user_name}}\"\n}"
 						},
 						"url": {
-							"raw": "{{user-service-url}}/integration-api/v2/users/identities/realms/Bank/legalentities",
+							"raw": "{{user-service-url}}/integration-api/v2/users/identities/realms/backbase/legalentities",
 							"host": [
 								"{{user-service-url}}"
 							],
@@ -265,7 +265,7 @@
 								"users",
 								"identities",
 								"realms",
-								"Bank",
+								"backbase",
 								"legalentities"
 							]
 						}
