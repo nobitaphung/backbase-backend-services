@@ -114,7 +114,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"externalId\": \"{{user_name}}\",\r\n  \"name\": \"{{user_name}}\",\r\n  \"parentExternalId\": \"Bank\",\r\n  \"type\": \"CUSTOMER\"\r\n}\r\n"
+							"raw": "{\r\n  \"externalId\": \"{{user_name}}\",\r\n  \"name\": \"{{user_name}}\",\r\n  \"parentExternalId\": \"{{parentExternalId}}\",\r\n  \"type\": \"CUSTOMER\"\r\n}\r\n"
 						},
 						"url": {
 							"raw": "{{legalentity-integration-service-url}}/v2/legalentities",
