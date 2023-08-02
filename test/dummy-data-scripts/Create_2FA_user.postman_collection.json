@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2aba5e08-7efe-4f7b-bc31-199b6434bc87",
+		"_postman_id": "06fb64f8-8a35-41de-814e-ec1260c2455c",
 		"name": "Create 2FA user Copy",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "17707512"
@@ -252,7 +252,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"legalEntityExternalId\": {{{{user_name}}}}\n}"
+							"raw": "{\n  \"legalEntityExternalId\": \"{{user_name}}\"\n}"
 						},
 						"url": {
 							"raw": "{{user-service-url}}/integration-api/v2/users/identities/realms/Bank/legalentities",
@@ -503,7 +503,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n \"externalId\": {{user_name}},\n \"legalEntityExternalId\": {{user_name}}\n}\n\n"
+							"raw": "{\n \"externalId\": \"{{user_name}}\",\n \"legalEntityExternalId\": \"{{user_name}}\"\n}\n\n"
 						},
 						"url": {
 							"raw": "{{user-service-url}}/integration-api/v2/users/identities/realms/backbase/legalentities",
@@ -545,7 +545,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "[\n    {\n        \"externalServiceAgreementId\": {{user_name}},\n        \"externalUserId\": {{user_name}},\n        \"functionGroupDataGroups\": [\n            {\n                \"functionGroupIdentifier\": {\n                    \"idIdentifier\": \"{{fg_user}}\"\n                },\n                \"dataGroupIdentifiers\": [\n                    {\n                        \"idIdentifier\": \"{{dg_user}}\"\n                    }\n                ]\n            }\n        ]\n    }\n]"
+							"raw": "[\n    {\n        \"externalServiceAgreementId\": \"{{user_name}}\",\n        \"externalUserId\": \"{{user_name}}\",\n        \"functionGroupDataGroups\": [\n            {\n                \"functionGroupIdentifier\": {\n                    \"idIdentifier\": \"{{fg_user}}\"\n                },\n                \"dataGroupIdentifiers\": [\n                    {\n                        \"idIdentifier\": \"{{dg_user}}\"\n                    }\n                ]\n            }\n        ]\n    }\n]"
 						},
 						"url": {
 							"raw": "{{accessgroup-integration-service-url}}/v2/accessgroups/users/permissions/user-permissions",
