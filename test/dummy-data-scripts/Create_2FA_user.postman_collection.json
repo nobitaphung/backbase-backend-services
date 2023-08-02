@@ -1,0 +1,789 @@
+{
+	"info": {
+		"_postman_id": "0ea2a569-ff90-4fd6-8d97-537614664b61",
+		"name": "Create 2FA user",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1 . Create User LE",
+			"item": [
+				{
+					"name": "Request Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"access_token\", response.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/x-www-form-urlencoded"
+							},
+							{
+								"key": "WWW-Authenticate",
+								"value": "Bearer challenge_types=otp-choice",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "bb-client",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "bb-secret",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "api:service",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{token-converter}}/oauth/token",
+							"host": [
+								"{{token-converter}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"Ramesh_Internal_ID\", response.id);",
+									"console.log(\"creating Sara le\");",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"externalId\": {{user_name}},\r\n  \"name\": \"{{user_name}}\",\r\n  \"parentExternalId\": \"Bank\",\r\n  \"type\": \"CUSTOMER\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{legalentity-integration-service-url}}/v2/legalentities",
+							"host": [
+								"{{legalentity-integration-service-url}}"
+							],
+							"path": [
+								"v2",
+								"legalentities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Master (Single) Service Agreement Details for Bank",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"legalEntityExternalId\": {{user_name}}\n}"
+						},
+						"url": {
+							"raw": "{{legalentity-integration-service-url}}/v2/legalentities/{{user_name}}/serviceagreements/master",
+							"host": [
+								"{{legalentity-integration-service-url}}"
+							],
+							"path": [
+								"v2",
+								"legalentities",
+								"{{user_name}}",
+								"serviceagreements",
+								"master"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set external Id to ABBank Master (Single) Service Agreement",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"externalId\": \"{{user_name}}_external\"\r\n}"
+						},
+						"url": {
+							"raw": "{{accessgroup-integration-service-url}}/v2/accessgroups/serviceagreements/{{msaIdForRamesh}}",
+							"host": [
+								"{{accessgroup-integration-service-url}}"
+							],
+							"path": [
+								"v2",
+								"accessgroups",
+								"serviceagreements",
+								"{{msaIdForRamesh}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Realm to User LE",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"legalEntityExternalId\": {{{{user_name}}}}\n}"
+						},
+						"url": {
+							"raw": "{{user-service-url}}/integration-api/v2/users/identities/realms/Bank/legalentities",
+							"host": [
+								"{{user-service-url}}"
+							],
+							"path": [
+								"integration-api",
+								"v2",
+								"users",
+								"identities",
+								"realms",
+								"Bank",
+								"legalentities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2. Create Product",
+			"item": [
+				{
+					"name": "Add product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"productId2\",\n    \"productKindId\": \"kind2\",\n    \"productKindName\": \"Current Account\",\n    \"productTypeId\": \"11111111\",\n    \"productTypeName\": \"Current Account\"\n}"
+						},
+						"url": {
+							"raw": "{{product-summary-service-url}}/integration-api/v2/products",
+							"host": [
+								"{{product-summary-service-url}}"
+							],
+							"path": [
+								"integration-api",
+								"v2",
+								"products"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3. Create Arrangement",
+			"item": [
+				{
+					"name": "Assign product to user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": \"{{user_name}} Account\",\n    \"legalEntityIds\": [\n        \"truongtd123\"\n    ],\n    \"productId\": \"productId2\",\n    \"name\": \"ACC1\",\n    \"bankAlias\": \"alias1\",\n    \"bookedBalance\": 100.1,\n    \"availableBalance\": 100.2,\n    \"creditLimit\": 100.3,\n    \"IBAN\": \"NL67ABNA8835593166\",\n    \"BBAN\": \"BBAN\",\n    \"currency\": \"EUR\",\n    \"externalTransferAllowed\": true,\n    \"urgentTransferAllowed\": false,\n    \"accruedInterest\": 100.00,\n    \"number\": \"PANS\",\n    \"principalAmount\": 100.4,\n    \"currentInvestmentValue\": 100.5,\n    \"BIC\": \"BIC123\",\n    \"bankBranchCode\": \"bankBranchCode1\"\n}"
+						},
+						"url": {
+							"raw": "{{product-summary-service-url}}/integration-api/v2/arrangements",
+							"host": [
+								"{{product-summary-service-url}}"
+							],
+							"path": [
+								"integration-api",
+								"v2",
+								"arrangements"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4. Create DG and FG for user",
+			"item": [
+				{
+					"name": "Add DG batch",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"dg_user\", response[0].resourceId);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"name\": \"Manager Cur Ac\",\n        \"description\": \"Manager Current Accounts\",\n        \"externalServiceAgreementId\": \"{{user_name}}_external\",\n        \"type\": \"ARRANGEMENTS\",\n        \"dataItems\": [\n            {\n                \"externalIdIdentifier\": \"{{user_name}} Account\"\n            }\n        ]\n    }\n]"
+						},
+						"url": {
+							"raw": "{{accessgroup-integration-service-url}}/v2/accessgroups/data-groups/batch",
+							"host": [
+								"{{accessgroup-integration-service-url}}"
+							],
+							"path": [
+								"v2",
+								"accessgroups",
+								"data-groups",
+								"batch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add FG for user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = JSON.parse(responseBody);\r",
+									"postman.setEnvironmentVariable(\"fg_user\", response.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"FG PS Manager\",\n    \"description\": \"Access control on what phan can view\",\n    \"externalServiceAgreementId\": \"{{user_name}}_external\",\n    \"permissions\": [\n        {\n            \"functionId\": \"1006\",\n            \"assignedPrivileges\": [\n                {\n                    \"privilege\": \"view\"\n                }\n            ]\n        }\n    ]\n}"
+						},
+						"url": {
+							"raw": "{{accessgroup-integration-service-url}}/v2/accessgroups/function-groups",
+							"host": [
+								"{{accessgroup-integration-service-url}}"
+							],
+							"path": [
+								"v2",
+								"accessgroups",
+								"function-groups"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5. Import Realm user",
+			"item": [
+				{
+					"name": "Import User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"Ramesh_Internal_User_ID\", response.id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"externalId\": {{user_name}},\n \"legalEntityExternalId\": {{user_name}}\n}\n\n"
+						},
+						"url": {
+							"raw": "{{user-service-url}}/integration-api/v2/users/identities/realms/backbase/legalentities",
+							"host": [
+								"{{user-service-url}}"
+							],
+							"path": [
+								"integration-api",
+								"v2",
+								"users",
+								"identities",
+								"realms",
+								"backbase",
+								"legalentities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign FG and DG to users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"externalServiceAgreementId\": {{user_name}},\n        \"externalUserId\": {{user_name}},\n        \"functionGroupDataGroups\": [\n            {\n                \"functionGroupIdentifier\": {\n                    \"idIdentifier\": \"{{fg_user}}\"\n                },\n                \"dataGroupIdentifiers\": [\n                    {\n                        \"idIdentifier\": \"{{dg_user}}\"\n                    }\n                ]\n            }\n        ]\n    }\n]"
+						},
+						"url": {
+							"raw": "{{accessgroup-integration-service-url}}/v2/accessgroups/users/permissions/user-permissions",
+							"host": [
+								"{{accessgroup-integration-service-url}}"
+							],
+							"path": [
+								"v2",
+								"accessgroups",
+								"users",
+								"permissions",
+								"user-permissions"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "6. User Update",
+			"item": [
+				{
+					"name": "identity",
+					"item": [
+						{
+							"name": "Get Identities",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var response = JSON.parse(responseBody);\r",
+											"var company = 0;\r",
+											"var userName = pm.environment.get(\"user_name\");\r",
+											"// var adminUserId = response.identities.filter(f => f.externalId === \"admin\")[0].id;\r",
+											"// var saraUserId = response.identities.filter(f => f.externalId === \"suresh\")[0].id;\r",
+											"// var rameUserId = response.identities.filter(f => f.externalId === \"ramesh\")[0].id;\r",
+											"var testUserId = response.identities.filter(f => f.externalId === userName)[company].id;\r",
+											"var testExternalUserId = response.identities.filter(f => f.externalId === userName)[company].externalId;\r",
+											"\r",
+											"// postman.setEnvironmentVariable(\"ADMIN_USER_EXTERNAL_ID\", \"admin\");\r",
+											"// postman.setEnvironmentVariable(\"RAME_USER_EXTERNAL_ID\", \"ramesh\");\r",
+											"// postman.setEnvironmentVariable(\"TEST_USER_EXTERNAL_ID\", \"test\");\r",
+											"\r",
+											"// postman.setEnvironmentVariable(\"ADMIN_USER_INTERNAL_ID\", adminUserId);\r",
+											"// postman.setEnvironmentVariable(\"SARA_USER_INTERNAL_ID\", saraUserId);\r",
+											"// postman.setEnvironmentVariable(\"RAME_USER_INTERNAL_ID\", rameUserId);\r",
+											"postman.setEnvironmentVariable(\"testUserInternalId\", testUserId);\r",
+											"postman.setEnvironmentVariable(\"testUserExternalId\", testExternalUserId);\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{user-service-url}}/service-api/v2/users/identities?size=20",
+									"host": [
+										"{{user-service-url}}"
+									],
+									"path": [
+										"service-api",
+										"v2",
+										"users",
+										"identities"
+									],
+									"query": [
+										{
+											"key": "size",
+											"value": "20"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Integration External",
+					"item": [
+						{
+							"name": "Mock profile-test",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"phone-addresses\": [\r\n        {\r\n            \"key\": \"cb7653b5-31b2-481d-b9b5-aa4b415c96e1\",\r\n            \"type\": \"MOBILE\",\r\n            \"primary\": true,\r\n            \"number\": \"07717 371949\"\r\n        },\r\n        {\r\n            \"key\": \"cb7653b5-31b2-481d-b9b5-aa4b415c96e2\",\r\n            \"type\": \"LAND_LINE\",\r\n            \"primary\": false,\r\n            \"number\": \"02920 671937\"\r\n        }\r\n    ],\r\n    \"electronic-addresses\": [\r\n        {\r\n            \"key\": \"cb7653b5-31b2-481d-b9b5-aa4b415c96e1\",\r\n            \"type\": \"E_MAIL\",\r\n            \"primary\": true,\r\n            \"address\": \"test@tester.com\"\r\n        },\r\n        {\r\n            \"key\": \"cb7653b5-31b2-481d-b9b5-aa4b415c96e2\",\r\n            \"type\": \"PERSONAL\",\r\n            \"primary\": false,\r\n            \"address\": \"test_personal@tester.com\"\r\n        }\r\n    ],\r\n    \"postal-addresses\": [\r\n        {\r\n            \"key\": \"cb7653b5-31b2-481d-b9b5-aa4b415c96e1\",\r\n            \"type\": \"BUSINESS\",\r\n            \"primary\": false,\r\n            \"addressLine\": \"The Bonded Warehouse\",\r\n            \"streetName\": \"Atlantic Wharf\",\r\n            \"townName\": \"Cardiff\",\r\n            \"postalCode\": \"CF10 4HE\",\r\n            \"country\": \"GB\"\r\n        },\r\n        {\r\n            \"key\": \"cb7653b5-31b2-481d-b9b5-aa4b415c96e2\",\r\n            \"type\": \"HOME\",\r\n            \"primary\": true,\r\n            \"addressLine\": \"2 Hertsmere Rd\",\r\n            \"streetName\": \"Canary Wharf\",\r\n            \"townName\": \"London\",\r\n            \"postalCode\": \"E14 4AB\",\r\n            \"country\": \"GB\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{user_intergration_external_service_url}}/service-api/v2/users/profile/mock/{{testUserExternalId}}",
+									"host": [
+										"{{user_intergration_external_service_url}}"
+									],
+									"path": [
+										"service-api",
+										"v2",
+										"users",
+										"profile",
+										"mock",
+										"{{testUserExternalId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User Profile",
+					"item": [
+						{
+							"name": "Get User Profile-Test",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{user-service-url}}/service-api/v2/users/{{testUserInternalId}}/profile",
+									"host": [
+										"{{user-service-url}}"
+									],
+									"path": [
+										"service-api",
+										"v2",
+										"users",
+										"{{testUserInternalId}}",
+										"profile"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Phone-Test",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"type\": \"LAND_LINE\",\r\n  \"primary\": true,\r\n  \"number\": \"0886699556\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{user-service-url}}/service-api/v2/users/{{testUserInternalId}}/profile/phone-addresses",
+									"host": [
+										"{{user-service-url}}"
+									],
+									"path": [
+										"service-api",
+										"v2",
+										"users",
+										"{{testUserInternalId}}",
+										"profile",
+										"phone-addresses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add electronic-addresses-TEST",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"type\": \"PERSONAL\",\r\n  \"primary\": true,\r\n  \"address\": \"{{user_name}}.abbank@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{user-service-url}}/service-api/v2/users/{{testUserInternalId}}/profile/electronic-addresses",
+									"host": [
+										"{{user-service-url}}"
+									],
+									"path": [
+										"service-api",
+										"v2",
+										"users",
+										"{{testUserInternalId}}",
+										"profile",
+										"electronic-addresses"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	]
+}
