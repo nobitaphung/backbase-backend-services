@@ -205,13 +205,13 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var response = JSON.parse(response);",
-									"var status = response.status;",
-									"if(status === \"200\") {",
-									"    console.log(\"Successfully set external Id to Service Agreement: \");",
-									"} else {",
-									"    console.log(\"Failed set external Id to Service Agreement: \");",
-									"}"
+									"// var response = JSON.parse(response);",
+									"// var status = response.status;",
+									"// if(status === \"200\") {",
+									"//     console.log(\"Successfully set external Id to Service Agreement: \");",
+									"// } else {",
+									"//     console.log(\"Failed set external Id to Service Agreement: \");",
+									"// }"
 								],
 								"type": "text/javascript"
 							}
@@ -261,13 +261,13 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"var response = JSON.parse(response);",
-									"var status = response.status;",
-									"if(status === \"201\") {",
-									"    console.log(\"Successfully assign Realm to user LE: \", pm.environment.get(\"user_name\"));",
-									"} else {",
-									"    console.log(\"Failed to assign Realm to user LE: \", pm.environment.get(\"user_name\"));",
-									"}"
+									"// var response = JSON.parse(response);",
+									"// var status = response.status;",
+									"// if(status === \"201\") {",
+									"//     console.log(\"Successfully assign Realm to user LE: \", pm.environment.get(\"user_name\"));",
+									"// } else {",
+									"//     console.log(\"Failed to assign Realm to user LE: \", pm.environment.get(\"user_name\"));",
+									"// }"
 								],
 								"type": "text/javascript"
 							}
@@ -756,13 +756,13 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"var response = JSON.parse(response);",
-											"var status = response.status;",
-											"if(status === \"201\") {",
-											"    console.log(\"Mocked profile-test for user: \", pm.environment.get(user_name));",
-											"} else {",
-											"    console.log(\"Fail to mock profile-test for user: \", pm.environment.get(\"user_name\"));",
-											"}"
+											"// var response = JSON.parse(response);",
+											"// var status = response.status;",
+											"// if(status === \"201\") {",
+											"//     console.log(\"Mocked profile-test for user: \", pm.environment.get(user_name));",
+											"// } else {",
+											"//     console.log(\"Fail to mock profile-test for user: \", pm.environment.get(\"user_name\"));",
+											"// }"
 										],
 										"type": "text/javascript"
 									}
@@ -863,13 +863,13 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"var response = JSON.parse(response);",
-											"var status = response.status;",
-											"if(status === \"201\") {",
-											"    console.log(\"Added Phone-Test for user: \", pm.environment.get(user_name));",
-											"} else {",
-											"    console.log(\"Fail to add Phone-Test for user: \", pm.environment.get(user_name));",
-											"}"
+											"// var response = JSON.parse(response);",
+											"// var status = response.status;",
+											"// if(status === \"201\") {",
+											"//     console.log(\"Added Phone-Test for user: \", pm.environment.get(user_name));",
+											"// } else {",
+											"//     console.log(\"Fail to add Phone-Test for user: \", pm.environment.get(user_name));",
+											"// }"
 										],
 										"type": "text/javascript"
 									}
@@ -921,13 +921,13 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"var response = JSON.parse(response);",
-											"var status = response.status;",
-											"if(status === \"201\") {",
-											"    console.log(\"Added e-address for user: \", pm.environment.get(user_name));",
-											"} else {",
-											"    console.log(\"Fail to add e-address for user: \", pm.environment.get(user_name));",
-											"}"
+											"// var response = JSON.parse(response);",
+											"// var status = response.status;",
+											"// if(status === \"201\") {",
+											"//     console.log(\"Added e-address for user: \", pm.environment.get(user_name));",
+											"// } else {",
+											"//     console.log(\"Fail to add e-address for user: \", pm.environment.get(user_name));",
+											"// }"
 										],
 										"type": "text/javascript"
 									}
