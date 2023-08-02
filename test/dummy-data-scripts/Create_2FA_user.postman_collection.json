@@ -506,7 +506,7 @@
 							"raw": "{\n \"externalId\": \"{{user_name}}\",\n \"legalEntityExternalId\": \"{{user_name}}\"\n}\n\n"
 						},
 						"url": {
-							"raw": "{{user-service-url}}/integration-api/v2/users/identities/realms/backbase/legalentities",
+							"raw": "{{user-service-url}}/integration-api/v2/users/identities",
 							"host": [
 								"{{user-service-url}}"
 							],
@@ -514,10 +514,7 @@
 								"integration-api",
 								"v2",
 								"users",
-								"identities",
-								"realms",
-								"backbase",
-								"legalentities"
+								"identities"
 							]
 						}
 					},
