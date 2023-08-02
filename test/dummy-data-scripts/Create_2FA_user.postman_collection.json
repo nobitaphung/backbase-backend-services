@@ -342,7 +342,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": \"{{user_name}} Account\",\n    \"legalEntityIds\": [\n        \"truongtd123\"\n    ],\n    \"productId\": \"productId2\",\n    \"name\": \"ACC1\",\n    \"bankAlias\": \"alias1\",\n    \"bookedBalance\": 100.1,\n    \"availableBalance\": 100.2,\n    \"creditLimit\": 100.3,\n    \"IBAN\": \"NL67ABNA8835593166\",\n    \"BBAN\": \"BBAN\",\n    \"currency\": \"EUR\",\n    \"externalTransferAllowed\": true,\n    \"urgentTransferAllowed\": false,\n    \"accruedInterest\": 100.00,\n    \"number\": \"PANS\",\n    \"principalAmount\": 100.4,\n    \"currentInvestmentValue\": 100.5,\n    \"BIC\": \"BIC123\",\n    \"bankBranchCode\": \"bankBranchCode1\"\n}"
+							"raw": "{\n    \"id\": \"{{user_name}} Account\",\n    \"legalEntityIds\": [\n        \"{{user_name}}\"\n    ],\n    \"productId\": \"productId2\",\n    \"name\": \"ACC1\",\n    \"bankAlias\": \"alias1\",\n    \"bookedBalance\": 100.1,\n    \"availableBalance\": 100.2,\n    \"creditLimit\": 100.3,\n    \"IBAN\": \"NL67ABNA8835593166\",\n    \"BBAN\": \"BBAN\",\n    \"currency\": \"EUR\",\n    \"externalTransferAllowed\": true,\n    \"urgentTransferAllowed\": false,\n    \"accruedInterest\": 100.00,\n    \"number\": \"PANS\",\n    \"principalAmount\": 100.4,\n    \"currentInvestmentValue\": 100.5,\n    \"BIC\": \"BIC123\",\n    \"bankBranchCode\": \"bankBranchCode1\"\n}"
 						},
 						"url": {
 							"raw": "{{product-summary-service-url}}/integration-api/v2/arrangements",
