@@ -17,7 +17,9 @@
 							"script": {
 								"exec": [
 									"const response = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"access_token\", response.access_token);"
+									"postman.setEnvironmentVariable(\"access_token\", response.access_token);",
+									"console.log(\"access_token: \", pm.environment.get(\"access_token\"));",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -85,8 +87,13 @@
 							"script": {
 								"exec": [
 									"var response = JSON.parse(responseBody);",
+									"var status = response.status;",
 									"postman.setEnvironmentVariable(\"Ramesh_Internal_ID\", response.id);",
-									"console.log(\"creating Sara le\");",
+									"if(status === \"201\") {",
+									"    console.log(\"Successfully created user: \", pm.environment.get(\"user_name\"));",
+									"} else {",
+									"    console.log(\"Failed to create user: \", pm.environment.get(\"user_name\"));",
+									"}",
 									"",
 									""
 								],
@@ -140,6 +147,8 @@
 									"",
 									"postman.setEnvironmentVariable(\"msaIdForRamesh\", response.id);",
 									"setTimeout(function(){}, 2000);",
+									"",
+									"console.log(\"Master Service Agreement Details for Bank: \", response);",
 									""
 								],
 								"type": "text/javascript"
@@ -191,6 +200,23 @@
 				},
 				{
 					"name": "Set external Id to ABBank Master (Single) Service Agreement",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = JSON.parse(responseBody);",
+									"var status = response.status;",
+									"if(status === \"200\") {",
+									"    console.log(\"Successfully set external Id to Service Agreement: \");",
+									"} else {",
+									"    console.log(\"Failed set external Id to Service Agreement: \");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -230,6 +256,23 @@
 				},
 				{
 					"name": "Assign Realm to User LE",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = JSON.parse(responseBody);",
+									"var status = response.status;",
+									"if(status === \"201\") {",
+									"    console.log(\"Successfully assign Realm to user LE: \", pm.environment.get(\"user_name\"));",
+									"} else {",
+									"    console.log(\"Failed to assign Realm to user LE: \", pm.environment.get(\"user_name\"));",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -279,6 +322,23 @@
 			"item": [
 				{
 					"name": "Add product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = JSON.parse(responseBody);",
+									"var status = response.status;",
+									"if(status === \"400\") {",
+									"    console.log(\"Product currently exists\");",
+									"} else {",
+									"    console.log(\"Product created\");",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -322,6 +382,23 @@
 			"item": [
 				{
 					"name": "Assign product to user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = JSON.parse(responseBody);",
+									"var status = response.status;",
+									"if(status === \"201\") {",
+									"    console.log(\"Product is assigned to user: \", pm.environment.get(\"user_name\"));",
+									"} else {",
+									"    console.log(\"Fail to assign product to user: \", pm.environment.get(\"user_name\"));",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -371,7 +448,14 @@
 							"script": {
 								"exec": [
 									"var response = JSON.parse(responseBody);\r",
-									"postman.setEnvironmentVariable(\"dg_user\", response[0].resourceId);"
+									"postman.setEnvironmentVariable(\"dg_user\", response[0].resourceId);\r",
+									"\r",
+									"var status = response.status;\r",
+									"if(status === \"207\") {\r",
+									"    console.log(\"Added dg_user: \", response[0].resourceId);\r",
+									"} else {\r",
+									"    console.log(\"Fail to add dg_user\");\r",
+									"}"
 								],
 								"type": "text/javascript"
 							}
@@ -422,7 +506,14 @@
 							"script": {
 								"exec": [
 									"var response = JSON.parse(responseBody);\r",
-									"postman.setEnvironmentVariable(\"fg_user\", response.id);"
+									"postman.setEnvironmentVariable(\"fg_user\", response.id);\r",
+									"\r",
+									"var status = response.status;\r",
+									"if(status === \"201\") {\r",
+									"    console.log(\"Added fg_user: \", response.id);\r",
+									"} else {\r",
+									"    console.log(\"Fail to add fg_user\");\r",
+									"}"
 								],
 								"type": "text/javascript"
 							}
@@ -477,7 +568,14 @@
 							"script": {
 								"exec": [
 									"var response = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"Ramesh_Internal_User_ID\", response.id);"
+									"postman.setEnvironmentVariable(\"Ramesh_Internal_User_ID\", response.id);",
+									"",
+									"var status = response.status;",
+									"if(status === \"201\") {",
+									"    console.log(\"Imported user: \", pm.environment.get(\"user_name\"));",
+									"} else {",
+									"    console.log(\"Fail to import user: \", pm.environment.get(\"user_name\"));",
+									"}"
 								],
 								"type": "text/javascript"
 							}
@@ -522,6 +620,24 @@
 				},
 				{
 					"name": "Assign FG and DG to users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = JSON.parse(responseBody);",
+									"var status = response.status;",
+									"if(status === \"207\") {",
+									"    console.log(\"Assign for user a dg: \", pm.environment.get(dg_user));",
+									"    console.log(\"Assign for user a fg: \", pm.environment.get(fg_user));",
+									"} else {",
+									"    console.log(\"Fail to assign dg and fg to user: \", pm.environment.get(\"user_name\"));",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -635,6 +751,23 @@
 					"item": [
 						{
 							"name": "Mock profile-test",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var response = JSON.parse(responseBody);",
+											"var status = response.status;",
+											"if(status === \"201\") {",
+											"    console.log(\"Mocked profile-test for user: \", pm.environment.get(user_name));",
+											"} else {",
+											"    console.log(\"Fail to mock profile-test for user: \", pm.environment.get(\"user_name\"));",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -681,6 +814,19 @@
 					"item": [
 						{
 							"name": "Get User Profile-Test",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var response = JSON.parse(responseBody);",
+											"",
+											"console.log(\"User Profile-Test: \", response);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -712,6 +858,23 @@
 						},
 						{
 							"name": "Add Phone-Test",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var response = JSON.parse(responseBody);",
+											"var status = response.status;",
+											"if(status === \"201\") {",
+											"    console.log(\"Added Phone-Test for user: \", pm.environment.get(user_name));",
+											"} else {",
+											"    console.log(\"Fail to add Phone-Test for user: \", pm.environment.get(user_name));",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "bearer",
@@ -753,6 +916,23 @@
 						},
 						{
 							"name": "Add electronic-addresses-TEST",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var response = JSON.parse(responseBody);",
+											"var status = response.status;",
+											"if(status === \"201\") {",
+											"    console.log(\"Added e-address for user: \", pm.environment.get(user_name));",
+											"} else {",
+											"    console.log(\"Fail to add e-address for user: \", pm.environment.get(user_name));",
+											"}"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"auth": {
 									"type": "bearer",
