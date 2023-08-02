@@ -1,8 +1,9 @@
 {
 	"info": {
-		"_postman_id": "0ea2a569-ff90-4fd6-8d97-537614664b61",
-		"name": "Create 2FA user",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"_postman_id": "2aba5e08-7efe-4f7b-bc31-199b6434bc87",
+		"name": "Create 2FA user Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17707512"
 	},
 	"item": [
 		{
@@ -113,7 +114,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"externalId\": {{user_name}},\r\n  \"name\": \"{{user_name}}\",\r\n  \"parentExternalId\": \"Bank\",\r\n  \"type\": \"CUSTOMER\"\r\n}\r\n"
+							"raw": "{\r\n  \"externalId\": \"{{user_name}}\",\r\n  \"name\": \"{{user_name}}\",\r\n  \"parentExternalId\": \"Bank\",\r\n  \"type\": \"CUSTOMER\"\r\n}\r\n"
 						},
 						"url": {
 							"raw": "{{legalentity-integration-service-url}}/v2/legalentities",
@@ -130,6 +131,24 @@
 				},
 				{
 					"name": "Get Master (Single) Service Agreement Details for Bank",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = JSON.parse(responseBody);",
+									"",
+									"postman.setEnvironmentVariable(\"msaIdForRamesh\", response.id);",
+									"setTimeout(function(){}, 2000);",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -141,7 +160,7 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -152,7 +171,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"legalEntityExternalId\": {{user_name}}\n}"
+							"raw": "{\n  \"legalEntityExternalId\": \"{{user_name}}\"\n}"
 						},
 						"url": {
 							"raw": "{{legalentity-integration-service-url}}/v2/legalentities/{{user_name}}/serviceagreements/master",
