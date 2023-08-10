@@ -206,6 +206,9 @@ services:
     environment:
       <<: [*common-variables, *message-broker-variables, *database-variables]
       spring.datasource.url: jdbc:mysql://mysql:3306/arrangement-manager?useSSL=false&allowPublicKeyRetrieval=true&cacheServerConfiguration=true&createDatabaseIfNotExist=true
+    javaOpts:
+      extra:
+        - "-Dspring.config.additional-location=file:customs/arrangement-custom-config.yaml"
     volumes:
       - ./scripts:/tmp/h
     healthcheck:
