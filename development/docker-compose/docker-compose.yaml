@@ -41,110 +41,110 @@ x-healthcheck-defaults: &healthcheck-defaults
   retries: 15
 
 arrangement-custom-config: &arrangement-custom-config
-backbase:
-  arrangement:
-    arrangement-views:
-      x-base-group-collector: &x-base-group-collector
-        mappings:
-          displayName: displayName
-          productKindUri: productKind.uri
-          accountNumber: bban
-          name: name
-          institutionId: bankBranchCode
-          amountInArrear: amountInArrear
-          overdueSince: overdueSince
-          currency: currency
-          availableBalance: availableBalance
-      views:
-        all:
-          categorizers: &product-kind-categorizers
-            cat-savings-account:
-              expression: productKind.uri == 'savings-account'
-            cat-current-account:
-              expression: productKind.uri == 'current-account'
-            cat-escrow-account:
-              expression: productKind.uri == 'escrow-account'
-          groups:
-            current-account:
-              <<: *x-base-group-collector
-              categories:
-                - cat-current-account
-            savings-account:
-              <<: *x-base-group-collector
-              categories:
-                - cat-savings-account
-            escrow-account:
-              <<: *x-base-group-collector
-              categories:
-                - cat-escrow-account
-          aggregations:
-            total-balance:
-              cat-current-account: availableBalance
-              cat-savings-account: availableBalance
-              cat-escrow-account: availableBalance
-          projections:
-            currencies: "$collect($rows.![currency], $distinct(), $asc())"
-        current-accounts:
-          <<: *x-base-group-collector
-          categorizers:
-            <<: *product-kind-categorizers
-          groups:
-            current-account:
-              <<: *x-base-group-collector
-              categories:
-                - cat-current-account
-          aggregations:
-            total-balance:
-              cat-current-account: availableBalance
-        savings-accounts:
-          <<: *x-base-group-collector
-          categorizers:
-            <<: *product-kind-categorizers
-          groups:
-            savings-account:
-              <<: *x-base-group-collector
-              categories:
-                - cat-savings-account
-          aggregations:
-            total-balance:
-              cat-savings-account: availableBalance
-        escrow-accounts:
-          <<: *x-base-group-collector
-          categorizers:
-            <<: *product-kind-categorizers
-          groups:
-            escrow-account:
-              <<: *x-base-group-collector
-              categories:
-                - cat-escrow-account
-          aggregations:
-            total-balance:
-              cat-escrow-account: availableBalance
-  api:
-    extensions:
-      classes:
-        com.backbase.dbs.arrangement.inbound.model.PostArrangementDto: personal-data
-        com.backbase.dbs.arrangement.inbound.model.PutArrangementDto: personal-data
-        com.backbase.dbs.product.arrangement.BatchArrangementsCommand: personal-data
-      property-sets:
-        personal-data:
-          properties:
-            - property-name: branchId
-              type: string
-            - property-name: customerCIF
-              type: string
-            - property-name: interest
-              type: string
-            - property-name: accountCategory
-              type: string
-            - property-name: postingRestrict
-              type: string
-            - property-name: lockedAmt
-              type: string
-            - property-name: lastTransactionDate
-              type: string
-            - property-name: branchName
-              type: string
+  backbase:
+    arrangement:
+      arrangement-views:
+        x-base-group-collector: &x-base-group-collector
+          mappings:
+            displayName: displayName
+            productKindUri: productKind.uri
+            accountNumber: bban
+            name: name
+            institutionId: bankBranchCode
+            amountInArrear: amountInArrear
+            overdueSince: overdueSince
+            currency: currency
+            availableBalance: availableBalance
+        views:
+          all:
+            categorizers: &product-kind-categorizers
+              cat-savings-account:
+                expression: productKind.uri == 'savings-account'
+              cat-current-account:
+                expression: productKind.uri == 'current-account'
+              cat-escrow-account:
+                expression: productKind.uri == 'escrow-account'
+            groups:
+              current-account:
+                <<: *x-base-group-collector
+                categories:
+                  - cat-current-account
+              savings-account:
+                <<: *x-base-group-collector
+                categories:
+                  - cat-savings-account
+              escrow-account:
+                <<: *x-base-group-collector
+                categories:
+                  - cat-escrow-account
+            aggregations:
+              total-balance:
+                cat-current-account: availableBalance
+                cat-savings-account: availableBalance
+                cat-escrow-account: availableBalance
+            projections:
+              currencies: "$collect($rows.![currency], $distinct(), $asc())"
+          current-accounts:
+            <<: *x-base-group-collector
+            categorizers:
+              <<: *product-kind-categorizers
+            groups:
+              current-account:
+                <<: *x-base-group-collector
+                categories:
+                  - cat-current-account
+            aggregations:
+              total-balance:
+                cat-current-account: availableBalance
+          savings-accounts:
+            <<: *x-base-group-collector
+            categorizers:
+              <<: *product-kind-categorizers
+            groups:
+              savings-account:
+                <<: *x-base-group-collector
+                categories:
+                  - cat-savings-account
+            aggregations:
+              total-balance:
+                cat-savings-account: availableBalance
+          escrow-accounts:
+            <<: *x-base-group-collector
+            categorizers:
+              <<: *product-kind-categorizers
+            groups:
+              escrow-account:
+                <<: *x-base-group-collector
+                categories:
+                  - cat-escrow-account
+            aggregations:
+              total-balance:
+                cat-escrow-account: availableBalance
+    api:
+      extensions:
+        classes:
+          com.backbase.dbs.arrangement.inbound.model.PostArrangementDto: personal-data
+          com.backbase.dbs.arrangement.inbound.model.PutArrangementDto: personal-data
+          com.backbase.dbs.product.arrangement.BatchArrangementsCommand: personal-data
+        property-sets:
+          personal-data:
+            properties:
+              - property-name: branchId
+                type: string
+              - property-name: customerCIF
+                type: string
+              - property-name: interest
+                type: string
+              - property-name: accountCategory
+                type: string
+              - property-name: postingRestrict
+                type: string
+              - property-name: lockedAmt
+                type: string
+              - property-name: lastTransactionDate
+                type: string
+              - property-name: branchName
+                type: string
 
 volumes:
   backbase_mysql_data:
