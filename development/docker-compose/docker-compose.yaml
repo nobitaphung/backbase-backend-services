@@ -218,6 +218,26 @@ services:
       - activemq
       - registry
 
+  transaction-manager:
+    container_name: transaction_manager
+    image: ${MY_REPO}/transaction-manager:${BB_VERSION}
+    ports:
+      - "8059:8080"
+    environment:
+      <<: [*common-variables, *message-broker-variables, *database-variables]
+      spring.datasource.url: jdbc:mysql://mysql:3306/transaction-manager?useSSL=false&allowPublicKeyRetrieval=true&cacheServerConfiguration=true&createDatabaseIfNotExist=true
+    volumes:
+      - ./scripts:/tmp/h
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/transaction-manager", "<status>UP</status>" ]
+    depends_on:
+      mysql:
+        condition: service_healthy
+    links:
+      - activemq
+      - registry
+
   user-manager:
     container_name: user_manager
     image: ${MY_REPO}/user-manager:${BB_VERSION}
@@ -457,6 +477,84 @@ services:
     healthcheck:
       <<: *healthcheck-defaults
       test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/approval-service", "<status>UP</status>" ]
+    depends_on:
+      mysql:
+        condition: service_healthy
+    links:
+      - activemq
+      - registry
+
+  limit:
+    container_name: limit
+    image: ${MY_REPO}/limit:${BB_VERSION}
+    ports:
+      - "8032:8080"
+    environment:
+      <<: [*common-variables, *message-broker-variables, *database-variables]
+      spring.datasource.url: jdbc:mysql://mysql:3306/limit?useSSL=false&allowPublicKeyRetrieval=true&cacheServerConfiguration=true&createDatabaseIfNotExist=true
+    volumes:
+      - ./scripts:/tmp/h
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/limit", "<status>UP</status>" ]
+    depends_on:
+      mysql:
+        condition: service_healthy
+    links:
+      - activemq
+      - registry
+
+  payment-order-integration-service:
+    container_name: payment_order_integration_service
+    image: ${MY_REPO}/payment-order-integration-service:${BB_VERSION}
+    ports:
+      - "8037:8080"
+    environment:
+      <<: [*common-variables, *message-broker-variables]
+    volumes:
+      - ./scripts:/tmp/h
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/payment-order-integration-service", "<status>UP</status>" ]
+    depends_on:
+      mysql:
+        condition: service_healthy
+    links:
+      - activemq
+      - registry
+
+  payment-order-options:
+    container_name: payment_order_integration_service
+    image: ${MY_REPO}/payment-order-integration-service:${BB_VERSION}
+    ports:
+      - "8038:8080"
+    environment:
+      <<: [*common-variables, *message-broker-variables]
+    volumes:
+      - ./scripts:/tmp/h
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/payment-order-integration-service", "<status>UP</status>" ]
+    depends_on:
+      mysql:
+        condition: service_healthy
+    links:
+      - activemq
+      - registry
+
+  payment-order-service:
+    container_name: payment_order_service
+    image: ${MY_REPO}/payment-order-service:${BB_VERSION}
+    ports:
+      - "8039:8080"
+    environment:
+      <<: [*common-variables, *message-broker-variables, *database-variables]
+      spring.datasource.url: jdbc:mysql://mysql:3306/payment-order-service?useSSL=false&allowPublicKeyRetrieval=true&cacheServerConfiguration=true&createDatabaseIfNotExist=true
+    volumes:
+      - ./scripts:/tmp/h
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/payment-order-service", "<status>UP</status>" ]
     depends_on:
       mysql:
         condition: service_healthy
