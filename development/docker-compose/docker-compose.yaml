@@ -534,7 +534,7 @@ services:
       - ./scripts:/tmp/h
     healthcheck:
       <<: *healthcheck-defaults
-      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/payment-order-options"<status>UP</status>" ]
+      test: [ "CMD", "java", "/tmp/h/HealthCheck.java", "http://registry:8080/eureka/apps/payment-order-options", <status>UP</status>" ]
     depends_on:
       mysql:
         condition: service_healthy
