@@ -506,7 +506,7 @@ services:
 
   payment-order-integration-service:
     container_name: payment_order_integration_service
-    image: ${MY_REPO}/payment-order-integration-service:${BB_VERSION}
+    image: ${MY_REPO}/payment-order-integration-service:DBS-2.18.0
     ports:
       - "8037:8080"
     environment:
