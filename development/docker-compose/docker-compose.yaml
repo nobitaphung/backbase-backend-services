@@ -468,7 +468,7 @@ services:
     container_name: contentservices
     image: ${MY_REPO}/contentservices:${BB_VERSION}
     ports:
-      - "8058:8080"
+      - "8033:8080"
     environment:
       <<: [*common-variables, *message-broker-variables, *database-variables]
       spring.datasource.url: jdbc:mysql://mysql:3306/contentservices?useSSL=false&allowPublicKeyRetrieval=true&cacheServerConfiguration=true&createDatabaseIfNotExist=true
