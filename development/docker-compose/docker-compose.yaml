@@ -508,7 +508,7 @@ services:
     container_name: limit
     image: ${MY_REPO}/limit:${BB_VERSION}
     ports:
-      - "8032:8080"
+      - "8077:8080"
     environment:
       <<: [*common-variables, *message-broker-variables, *database-variables]
       spring.datasource.url: jdbc:mysql://mysql:3306/limit?useSSL=false&allowPublicKeyRetrieval=true&cacheServerConfiguration=true&createDatabaseIfNotExist=true
